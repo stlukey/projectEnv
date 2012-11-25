@@ -17,6 +17,8 @@ it can be avoided by installing:
 then just remove the `sudo apt-get install make npm python-pip` line from your install.sh
 
 
+To use `install.sh` just do:
+
 1. ```git clone https://github.com/o4dev/projectEnv.git projectEnv```
 3. ```chmod +x projectEnv/install.sh```
 4. ```projectEnv/install.sh```
