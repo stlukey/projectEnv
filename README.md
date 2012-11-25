@@ -7,6 +7,15 @@ Sets up and manages projects
 
 Install
 =======
+projectEnv comes with a install script which deals with most of the installation. However it
+does require `apt-get` to satisfy its dependancys. If this is not an option for your system
+it can be avoided by installing:
+* `make`
+* `npm`
+* `python-pip`
+then just remove the `sudo apt-get install make npm python-pip` line from your install.sh
+
+
 1. ```git clone https://github.com/o4dev/projectEnv.git projectEnv```
 3. ```chmod +x projectEnv/install.sh```
 4. ```projectEnv/install.sh```
