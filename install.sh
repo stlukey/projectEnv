@@ -59,6 +59,12 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+
+sudo apt-get install make
+sudo npm install -g less
+sudo npm install -g coffee-script
+sudo pip install coffeescript
+
 read -p "Where do you want the development directory ?: "
 DEV_PATH=$REPLY
 PROJECTS_PATH=$DEV_PATH/projects
@@ -67,7 +73,7 @@ PROJECT_TEMPLATES=$DEV_PATH/projects_templates
 mkdir $DEV_PATH
 mkdir $DEV_PATH/lib
 mkdir $DEV_PATH/projects
-cp $DIR/templates/* $DEV_PATH/projects_templates -r
+cp $DIR/templates/ $DEV_PATH/projects_templates -r
 cp $DIR/lib $DEV_PATH -r
 
 vars="export PROJECTS_PATH=\"$PROJECTS_PATH\" PROJECT_TEMPLATES=\"$PROJECT_TEMPLATES\"; #PROJECT SETUP"
