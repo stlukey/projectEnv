@@ -13,6 +13,7 @@ it can be avoided by installing:
 * `make`
 * `npm`
 * `python-pip`
+
 then just remove the `sudo apt-get install make npm python-pip` line from your install.sh
 
 
