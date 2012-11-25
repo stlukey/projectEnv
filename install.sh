@@ -68,7 +68,7 @@ mkdir $DEV_PATH
 mkdir $DEV_PATH/lib
 mkdir $DEV_PATH/projects
 cp $DIR/templates $DEV_PATH/projects_templates -r
-cp $DIR/lib $DEV_PATH/lib
+cp $DIR/lib $DEV_PATH/lib -r
 
 vars="export PROJECTS_PATH=\"$PROJECTS_PATH\" PROJECT_TEMPLATES=\"$PROJECT_TEMPLATES\"; #PROJECT SETUP"
 functions='_activate(){ opts=$(cd $PROJECTS_PATH; for file in `find . -name "activate"`; do file=$(dirname $(dirname $file)); echo ${file:2}; done);local cur=${COMP_WORDS[COMP_CWORD]} ; COMPREPLY=( $(compgen -W "$opts" -- $cur) ); }; activate(){ if [[ -n $1 ]];then OLD_PWD=$(pwd);export OLD_PWD;cd $PROJECTS_PATH/$1;fi;source .scripts/activate; }; complete -F _activate activate; _newproject(){ opts=$(cd $PROJECT_TEMPLATES ; for file in `find . -name "generate.sh"`; do file=$(dirname $file); echo ${file:2}; done);local cur=${COMP_WORDS[COMP_CWORD]} ; COMPREPLY=( $(compgen -W "$opts" -- $cur) ); }; newproject(){ $PROJECT_TEMPLATES/$1/generate.sh ${@:2}; }; complete -F _newproject newproject;'
