@@ -22,7 +22,7 @@ user@host:~/projectEnv$ cd ~
 user@host:~$ source .bashrc
 ```
 
-Usage
+Usage - see the tutorial [here](wiki/Tutorial)
 =====
 
 New Project:
