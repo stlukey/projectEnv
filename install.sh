@@ -65,7 +65,9 @@ PROJECTS_PATH=$DEV_PATH/projects
 PROJECT_TEMPLATES=$DEV_PATH/projects_templates
 
 mkdir $DEV_PATH
-cp $DIR/templates $DEV_PATH/projects_templates
+mkdir $DEV_PATH/libs
+mkdir $DEV_PATH/projects
+cp $DIR/templates $DEV_PATH/projects_templates -r
 cp $DIR/libs $DEV_PATH/libs
 cp $DIR/projects $DEV_PATH/projects
 
