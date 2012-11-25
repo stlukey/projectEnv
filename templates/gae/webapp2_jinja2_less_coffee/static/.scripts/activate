@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+#
+#  Copyright (c) 2012, Luke Southam <luke@devthe.com>
+#  All rights reserved.
+# 
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+# 
+#  - Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 
+#  - Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in
+#    the documentation and/or other materials provided with the
+#    distribution.
+# 
+#  - Neither the name of the DEVTHE.COM LIMITED nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+# 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+#  CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+#  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+#  BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+#  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+#  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+#  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+#  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+#  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+#  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+#  SUCH DAMAGE.
+#
+#
+#
+#=========================================================
+#
+#  FILE: activate
+#
+#  USAGE: ./activate
+#
+#  DESCRIPTION: Sets the appropriate environment variables for use in
+#		  this project (../#project_dir)
+#
+#  REQUIREMENTS: This script requires the $PROJECTS and 
+#   		$PROJECTS_PATH variables to be set, usually by the project
+#   		generator script which uses `sed`
+#			 
+#  BUGS: Not much can go wrong except if the OLD_* environment
+#   	variables get tampered with or is run twice
+#
+#  NOTES: Improvements could include protecting variable backups.
+# 	(is this possible?)
+#
+#  AUTHOR: Luke Southam <luke@devthe.com>
+#
+# 	COMPANY: DEVTHE.COM LIMITED
+#  
+#  VERSION: 1.1
+# 	
+# 	CREATED: ~ September 2012
+# 	
+# 	REVISION: October 29 2012 - 1:22 am
+#
+#=========================================================
+
+# get location of this script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# get the project vars
+source $DIR/project_vars.sh
+
+
+# Error colors
+color_warning='\033[93m'
+color_fail='\033[91m'
+color_end='\e[0m'
+
+
+#=== FUNCTION =====================================
+# NAME: main
+# DESCRIPTION: This activates the projects environment. Sets vars etc.
+# PARAMETER 1: **if defined will NOT cd to project**
+#===============================================
+main(){
+	# ACTIVATE_LOCK; used to prevent nested activations
+	if [[  $ACTIVATE_LOCK && ${ACTIVATE_LOCK-x} ]] && $ACTIVATE_LOCK; then
+		echo -e "${color_fail}hmm... there seems to be a project active ???${color_end}"
+		echo "Try to run \`deactivate\`."
+		echo "---- If that doesn't work open a new terminal .etc"
+		echo "      and try to run this again"
+		echo "---- Last resort is to set the environment variable but this is not recommended:"
+		echo "      ACTIVATE_LOCK=false"
+		return 1
+	fi
+
+	# Preserving old env vars.
+	OLD_PS1=$PS1
+	OLD_PATH=$PATH
+
+	# Creating new env vars.
+	## Add custom scripts to $PATH
+	PATH=$PATH:$SCRIPT_DIR
+	## Add app engine SDK to $PATH
+	PATH=$PATH:$APP_ENGINE
+
+	## Shortened $PS1 by displaying PROJECT when  `pwd` == $PROJECT_PATH
+	PS1='\u@$(p=${PWD/"$PROJECT_PATH"/"\[\e[1;34m\]$PROJECT_NAME\[\e[m\]:"}; echo $p) \$ '
+
+
+	# Setting the old env vars backups.
+	export  OLD_PATH \
+		OLD_PS1 \
+
+	# Setting the new env vars and setting lock.
+	export  PATH \
+		PS1 \
+		ACTIVATE_LOCK=true
+
+	# sublime project intergration
+	if [ -f $PROJECT_PATH/app.sublime-project ]; then
+		alias sl="sublime --project $PROJECT_PATH/app.sublime-project"
+	fi
+		
+	# Go to project's dir if desired
+	if [ -z "$1" -a "${1+xxx}" == "xxx" ]
+	then
+		cd $PROJECT_PATH
+	fi
+}
+
+#=== FUNCTION =====================================
+# NAME: deactivate
+# DESCRIPTION: This deactivates (undoes) any changes made.
+#===============================================
+deactivate(){
+	# ACTIVATE_LOCK; used to prevent nested activations
+	# but also false deactivations
+	if ! $ACTIVATE_LOCK; then
+		echo -e "${color_warning}hmm... there does not seem to be a project active${color_end}"
+		echo "---- To force set the environment variable ACTIVATE_LOCK=true"
+		return
+	fi
+
+	# Handling any glitches with unset env vars (the backup OLD ones).
+	if [ ! -n "$OLD_PATH" ]
+	then
+		OLD_PATH=$PATH
+	fi
+		
+	if [ ! -n "$OLD_PS1" ];then
+		OLD_PS1=$PS1
+	fi
+
+	unalias sl
+
+	# Set env vars back to old and deactivating lock.
+	export  PATH=$OLD_PATH \
+		PS1=$OLD_PS1 \
+		ACTIVATE_LOCK=false
+	
+	# Getting rid of old env vars.
+	unset    OLD_PATH OLD_PS1 \
+		OLD_PWD
+
+	# SELF DESTRUCT !
+	unset -f deactivate
+}
+
+	
+main $@

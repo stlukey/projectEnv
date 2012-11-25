@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"path": "app"
+		}
+	],
+	"build_systems":
+	[
+		{
+			"name":"server",
+			"cmd": ["$project_path/.scripts/server"]
+		}
+   	 ]
+}
