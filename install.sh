@@ -60,7 +60,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
-sudo apt-get install make
+sudo apt-get install make npm python-pip
 sudo npm install -g less
 sudo npm install -g coffee-script
 sudo pip install coffeescript
