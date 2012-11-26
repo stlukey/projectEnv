@@ -1,7 +1,7 @@
 ProjectEnv
 ==========
 
-Sets up and manages projects based off templates on Linux / Unix systems
+Sets up and manages projects based off templates on *nix systems
 
 > PLEASE NOTE: This does not manage packages inside the environment such as what virtualenv does
 
