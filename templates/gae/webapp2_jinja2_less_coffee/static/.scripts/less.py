@@ -60,8 +60,8 @@ def find_less(less_path):
 
 
 def less(*args):
-    os.system("lessc %s %s.css" % args)
-    os.system("lessc --compress %s %s.min.css" % args)
+    os.system("lessc %s > %s.css" % args)
+    os.system("lessc --compress %s > %s.min.css" % args)
 
 
 if __name__ == '__main__':
