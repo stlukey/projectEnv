@@ -29,7 +29,7 @@ To use `install.sh` just do:
 
 
 load settings after install
-```
+```bash
 user@host:~/projectEnv$ cd ~
 user@host:~$ source .bashrc
 ```
@@ -38,7 +38,9 @@ Usage - see the tutorial [here](https://github.com/o4dev/projectEnv/wiki/Tutoria
 =====
 
 New Project:
-```newproject [template] [optional: name] [if entered name and is gae: appid]```
+```bash
+newproject [template] [optional: name] [if entered name and is gae: appid]
+```
 
 ```
 user@host:~$ newproject gae/webapp2_jinja2_less_coffee_bootstrap
@@ -47,9 +49,11 @@ user@host:~$ newproject gae/webapp2_jinja2_less_coffee_bootstrap
 ```
 
 Activate Project:
-```activate [project name]```
-
+```bash
+activate [project name]
 ```
+
+```bash
 user@host:~$ activate test
 user@test: $
 ```
