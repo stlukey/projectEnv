@@ -8,7 +8,7 @@ variable.
 $PATH=$PATH:$PROJECT_PATH/.scripts;
 ```
 
-> PLEASE NOTE: This does not manage packages inside the environment such as what virtualenv does
+> PLEASE NOTE: This does not manage packages that are installed inside the environment such as what virtualenv does
 
 Install
 =======
