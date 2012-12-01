@@ -6,7 +6,8 @@ the particular project the template is based off when activated into the `$PATH`
 variable (
 ```bash
 $PATH=$PATH:$PROJECT_PATH/.scripts;
-```).
+```
+).
 
 > PLEASE NOTE: This does not manage packages inside the environment such as what virtualenv does
 
