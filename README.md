@@ -3,11 +3,10 @@ ProjectEnv
 
 Quickly sets up and manages projects based off templates on *nix systems and includes useful tools for
 the particular project the template is based off when activated into the `$PATH` environment
-variable (
+variable.
 ```bash
 $PATH=$PATH:$PROJECT_PATH/.scripts;
 ```
-).
 
 > PLEASE NOTE: This does not manage packages inside the environment such as what virtualenv does
 
